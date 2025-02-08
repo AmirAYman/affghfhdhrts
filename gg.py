@@ -1,7 +1,6 @@
 #=========================library==================================#
 import requests , re , random , string , uuid , user_agent , logging , base64
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-from colorama import Fore, Back, Style, init
 from nextcaptcha import NextCaptchaAPI
 #=========================library==================================#
 
