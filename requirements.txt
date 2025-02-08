@@ -1,0 +1,14 @@
+requests
+user_agent
+telebot
+flask
+jsonify
+bs4
+nextcaptcha-python
+faker
+fake_useragent
+flagz
+pycountry
+PyJWT
+requests_toolbelt
+colorama
