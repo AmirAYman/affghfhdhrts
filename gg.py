@@ -19,7 +19,7 @@ def Tele(ccx):
 
             if "20" in yy:
                 yy = yy.split("20")[1]
-            time.sleep(2)
+            time.sleep(10)
             username = "PPR029QRD8D"
             password = "vg77VFWH98GBDT"
             proxy = "FINEPROXY.XYZ:3091"
