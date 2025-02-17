@@ -1,5 +1,5 @@
 #=========================library==================================#
-import requests , re , random , string , uuid , user_agent
+import requests , re , random , string , uuid , user_agent , time
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from colorama import Fore, Back, Style, init
 from bs4 import BeautifulSoup
@@ -62,6 +62,7 @@ def Tele(ccx):
         else:
             return None
     g_token = solve_captcha()
+    time.sleep(8)
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
