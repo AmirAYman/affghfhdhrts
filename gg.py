@@ -25,7 +25,7 @@ fake = Faker()
 card_count = 0
 
 def Tele(ccx):
-    start_num += 1
+    
     card_count += 1
     if card_count > 10:
 		
